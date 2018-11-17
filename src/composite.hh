@@ -3,6 +3,7 @@
 #include <variant>
 #include <string>
 #include "types.hh"
+#include "deduce.hh"
 
 namespace composite {
 
@@ -16,7 +17,7 @@ public:
     constexpr bool is() const noexcept;
 
     template <typename T>
-    constexpr const T &as() const;
+    constexpr const typename decay_deduce<T>::type &as() const;
 
 private:
     std::variant<
@@ -33,13 +34,13 @@ private:
 template <typename T>
 constexpr bool composite::is() const noexcept
 {
-    return std::holds_alternative<T>(d_data);
+    return std::holds_alternative<typename decay_deduce<T>::type>(d_data);
 }
 
 template <typename T>
-constexpr const T &composite::as() const
+constexpr const typename decay_deduce<T>::type &composite::as() const
 {
-    return std::get<T>(d_data);
+    return std::get<typename decay_deduce<T>::type>(d_data);
 }
 
 }
