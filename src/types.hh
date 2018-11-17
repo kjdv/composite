@@ -30,6 +30,8 @@ namespace implementation
 class mapping
 {
 public:
+    // as templatate as composite::mapping does not have to be a complete type this way
+    // however, access() is undefined behavior if T is anything other than composite::mapping
     template <typename T>
     constexpr explicit mapping(T&& m) noexcept
         : d_impl(std::forward<T>(m))
