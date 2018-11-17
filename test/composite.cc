@@ -16,5 +16,17 @@ TEST(composite, default_constructs_as_none)
     EXPECT_EQ(none{}, c.as<void>());
 }
 
+TEST(composite, construct_int)
+{
+    /*
+    composite c;
+
+    EXPECT_FALSE(c.is<none>());
+    EXPECT_TRUE(c.is<int>());
+    EXPECT_TRUE(c.is<int64_t>());
+
+    EXPECT_EQ(1, c.as<int>());*/
+}
+
 }
 }

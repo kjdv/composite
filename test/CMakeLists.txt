@@ -1,5 +1,6 @@
 add_executable(composite_test
     composite.cc
+    deduce.cc
 )
 target_link_libraries(composite_test
     PRIVATE

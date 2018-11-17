@@ -13,6 +13,11 @@ public:
         : d_data{none{}}
     {}
 
+    //template <typename T, typename = std::enable_if<decay_deduce<T>::type>>
+    //constexpr explicit composite(T&& value) noexcept
+    //    : d_data(std::forward<T>(value))
+    //{}
+
     template <typename T>
     constexpr bool is() const noexcept;
 
