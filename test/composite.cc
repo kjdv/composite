@@ -59,5 +59,51 @@ TEST(composite, construct_string)
     EXPECT_EQ("foo", c.as<std::string>());
 }
 
+TEST(composite, is_copy_constructable)
+{
+    static_assert(std::is_copy_constructible<composite>::value);
+
+    composite a(3.14);
+    composite b(a);
+
+    EXPECT_EQ(3.14, b.as<double>());
+    EXPECT_EQ(a.as<double>(), b.as<double>());
+}
+
+TEST(composite, is_copy_assignable)
+{
+    static_assert(std::is_copy_assignable<composite>::value);
+
+    composite a(3.14);
+    composite b;
+    EXPECT_EQ(none{}, b.as<none>());
+
+    b = a;
+    EXPECT_EQ(3.14, b.as<double>());
+    EXPECT_EQ(a.as<double>(), b.as<double>());
+}
+
+TEST(composite, is_move_constructable)
+{
+    static_assert(std::is_move_constructible<composite>::value);
+
+    composite a(3.14);
+    composite b(std::move(a));
+
+    EXPECT_EQ(3.14, b.as<double>());
+}
+
+TEST(composite, is_move_assignable)
+{
+    static_assert(std::is_move_assignable<composite>::value);
+
+    composite a(3.14);
+    composite b;
+    EXPECT_EQ(none{}, b.as<none>());
+
+    b = std::move(a);
+    EXPECT_EQ(3.14, b.as<double>());
+}
+
 }
 }

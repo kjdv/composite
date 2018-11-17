@@ -18,6 +18,7 @@ public:
         : d_data(std::in_place_type<typename decay_deduce<T>::type>, std::forward<T>(value))
     {}
 
+
     template <typename T>
     constexpr bool is() const noexcept;
 
