@@ -15,10 +15,7 @@ public:
     {}
 
     template <typename T, typename = typename decay_deduce<T>::type>
-    constexpr explicit composite(T&& value) noexcept
-        : d_data(std::in_place_type<typename decay_deduce<T>::type>, std::forward<T>(value))
-    {}
-
+    constexpr explicit composite(T&& value) noexcept;
 
     template <typename T>
     constexpr bool is() const noexcept;
@@ -46,6 +43,11 @@ inline bool operator!=(const composite &a, const composite &b) noexcept
 {
     return !(a == b);
 }
+
+template <typename T, typename U>
+constexpr composite::composite(T&& value) noexcept
+    : d_data(std::in_place_type<U>, std::forward<T>(value))
+{}
 
 template <typename T>
 constexpr bool composite::is() const noexcept
