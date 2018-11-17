@@ -23,6 +23,9 @@ public:
     template <typename T>
     constexpr const typename accessor<typename decay_deduce<T>::type>::type &as() const;
 
+    template <typename V>
+    decltype(auto) visit(V&& visitor) const;
+
 private:
     friend bool operator==(const composite &, const composite &) noexcept;
 
@@ -44,6 +47,8 @@ inline bool operator!=(const composite &a, const composite &b) noexcept
     return !(a == b);
 }
 
+std::ostream &operator<<(std::ostream &o, const composite &c) noexcept;
+
 template <typename T, typename U>
 constexpr composite::composite(T&& value) noexcept
     : d_data(std::in_place_type<U>, std::forward<T>(value))
@@ -60,6 +65,12 @@ constexpr const typename accessor<typename decay_deduce<T>::type>::type &composi
 {
     accessor<typename decay_deduce<T>::type> a;
     return a(std::get<typename decay_deduce<T>::type>(d_data));
+}
+
+template <typename V>
+decltype(auto) composite::visit(V&& visitor) const
+{
+    return std::visit(visitor, d_data);
 }
 
 }

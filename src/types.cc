@@ -26,6 +26,27 @@ bool operator==(const mapping &a, const mapping &b) noexcept
     return acc(a) == acc(b);
 }
 
+std::ostream &operator<<(std::ostream &o, const mapping &m)
+{
+    o << '{';
+    const auto &impl = m.access();
+    for(auto&& kv : impl)
+        o << kv.first << ": " << kv.second << ", ";
+
+    o << '}';
+    return o;
+}
+
+}
+
+std::ostream &operator<<(std::ostream &o, const sequence &s)
+{
+    o << '[';
+    for(auto&& c : s)
+        o << c << ", ";
+
+    o << ']';
+    return o;
 }
 
 }

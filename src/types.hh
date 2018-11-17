@@ -25,6 +25,8 @@ class composite;
 using sequence = std::vector<composite>; // composite does not need to be a complete type
 using mapping = std::unordered_map<std::string, composite>; // composite is incomplete type, trickery needed
 
+std::ostream &operator<<(std::ostream &o, const sequence &s);
+
 namespace implementation
 {
 class mapping
@@ -43,6 +45,8 @@ private:
 };
 
 bool operator==(const mapping &a, const mapping &b) noexcept;
+
+std::ostream &operator<<(std::ostream &o, const mapping &m);
 
 }
 

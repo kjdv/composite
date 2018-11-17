@@ -1,4 +1,5 @@
 #include "composite.hh"
+#include <sstream>
 #include <gtest/gtest.h>
 
 namespace composite {
@@ -161,6 +162,41 @@ TEST(composite, equality)
     }
 }
 
+TEST(composite, print)
+{
+    using namespace std;
+
+    struct{
+        composite item;
+        string expect;
+    } testcases[] = {
+        {composite(), "<none>"},
+        {composite(true), "true"},
+        {composite(false), "false"},
+        {composite(2), "2"},
+        {composite(3.14), "3.14"},
+        {composite("foo"), "\"foo\""},
+
+        {composite(
+            sequence({
+                composite(1),
+                composite("bar")
+            })
+        ), "[1, \"bar\", ]"},
+
+        {composite(
+            mapping({{"pi", composite(3.14)}})
+         ), "{pi: 3.14, }"},
+    };
+
+    for (auto&& tc : testcases)
+    {
+        ostringstream os;
+        os << tc.item;
+
+        EXPECT_EQ(tc.expect, os.str());
+    }
+}
 
 }
 }
