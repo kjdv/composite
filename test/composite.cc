@@ -4,9 +4,12 @@
 namespace composite {
 namespace {
 
-TEST(composite, placeholder)
+TEST(composite, default_constructs_as_none)
 {
-    FAIL() << "implement something";
+    composite c;
+
+    EXPECT_TRUE(c.is<none>());
+    EXPECT_EQ(none{}, c.as<none>());
 }
 
 }
