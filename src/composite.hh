@@ -28,8 +28,9 @@ public:
 
 private:
     friend bool operator==(const composite &, const composite &) noexcept;
+    friend std::size_t hash(const composite &) noexcept;
 
-    std::variant<
+    using variant_t = std::variant<
         deduce<none>::type,
         deduce<bool>::type,
         deduce<int>::type,
@@ -37,7 +38,9 @@ private:
         deduce<std::string>::type,
         deduce<sequence>::type,
         implementation::mapping // small kludge, composite::mapping is an incomplete type at this point
-    > d_data;
+    >;
+
+    variant_t d_data;
 };
 
 bool operator==(const composite &a, const composite &b) noexcept;
@@ -72,5 +75,22 @@ decltype(auto) composite::visit(V&& visitor) const
 {
     return std::visit(visitor, d_data);
 }
+
+std::size_t hash(const composite &c) noexcept;
+
+}
+
+namespace std {
+
+template <>
+struct hash<composite::composite>
+{
+    typedef composite::composite argument_type;
+    typedef std::size_t result_type;
+    result_type operator()(const argument_type &c) const noexcept
+    {
+        return composite::hash(c);
+    }
+};
 
 }
