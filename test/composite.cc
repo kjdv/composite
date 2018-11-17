@@ -182,11 +182,11 @@ TEST(composite, print)
                 composite(1),
                 composite("bar")
             })
-        ), "[1, bar, ]"},
+        ), "[1, bar]"},
 
         {composite(
             mapping({{"pi", composite(3.14)}})
-         ), "{pi: 3.14, }"},
+         ), "{pi: 3.14}"},
     };
 
     for (auto&& tc : testcases)

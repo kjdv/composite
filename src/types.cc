@@ -1,12 +1,14 @@
 #include "types.hh"
 #include "composite.hh"
 #include <cassert>
-
+#include <algorithm>
 #include <iostream>
 
 namespace composite {
 
-std::ostream &operator<<(std::ostream &o, none)
+using namespace std;
+
+ostream &operator<<(ostream &o, none)
 {
     return o << "<none>";
 }
@@ -26,12 +28,19 @@ bool operator==(const mapping &a, const mapping &b) noexcept
     return acc(a) == acc(b);
 }
 
-std::ostream &operator<<(std::ostream &o, const mapping &m)
+ostream &operator<<(ostream &o, const mapping &m)
 {
     o << '{';
+
+    bool first = true;
     const auto &impl = m.access();
     for(auto&& kv : impl)
-        o << kv.first << ": " << kv.second << ", ";
+    {
+        if(!first)
+            o << ", ";
+        o << kv.first << ": " << kv.second;
+        first = false;
+    }
 
     o << '}';
     return o;
@@ -39,11 +48,18 @@ std::ostream &operator<<(std::ostream &o, const mapping &m)
 
 }
 
-std::ostream &operator<<(std::ostream &o, const sequence &s)
+ostream &operator<<(ostream &o, const sequence &s)
 {
     o << '[';
+
+    bool first = true;
     for(auto&& c : s)
-        o << c << ", ";
+    {
+        if(!first)
+            o << ", ";
+        o << c;
+        first = false;
+    }
 
     o << ']';
     return o;
