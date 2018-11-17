@@ -175,14 +175,14 @@ TEST(composite, print)
         {composite(false), "false"},
         {composite(2), "2"},
         {composite(3.14), "3.14"},
-        {composite("foo"), "\"foo\""},
+        {composite("foo"), "foo"},
 
         {composite(
             sequence({
                 composite(1),
                 composite("bar")
             })
-        ), "[1, \"bar\", ]"},
+        ), "[1, bar, ]"},
 
         {composite(
             mapping({{"pi", composite(3.14)}})
