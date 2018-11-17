@@ -4,6 +4,7 @@
 #include <string>
 #include "types.hh"
 #include "deduce.hh"
+#include "traits.hh"
 
 namespace composite {
 
@@ -23,17 +24,17 @@ public:
     constexpr bool is() const noexcept;
 
     template <typename T>
-    constexpr const typename decay_deduce<T>::type &as() const;
+    constexpr const typename accessor<typename decay_deduce<T>::type>::type &as() const;
 
 private:
     std::variant<
-        none,
-        bool,
-        int64_t,
-        double,
-        std::string,
-        sequence,
-        mapping
+        deduce<none>::type,
+        deduce<bool>::type,
+        deduce<int>::type,
+        deduce<double>::type,
+        deduce<std::string>::type,
+        deduce<sequence>::type,
+        implementation::mapping // small kludge, composite::mapping is an incomplete type at this point
     > d_data;
 };
 
@@ -44,9 +45,10 @@ constexpr bool composite::is() const noexcept
 }
 
 template <typename T>
-constexpr const typename decay_deduce<T>::type &composite::as() const
+constexpr const typename accessor<typename decay_deduce<T>::type>::type &composite::as() const
 {
-    return std::get<typename decay_deduce<T>::type>(d_data);
+    accessor<typename decay_deduce<T>::type> a;
+    return a(std::get<typename decay_deduce<T>::type>(d_data));
 }
 
 }

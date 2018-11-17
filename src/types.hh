@@ -2,8 +2,8 @@
 
 #include <iosfwd>
 #include <vector>
-#include <unordered_map>
 #include <any>
+#include <unordered_map>
 
 namespace composite {
 
@@ -21,11 +21,24 @@ inline bool operator!=(none a, none b)
 
 std::ostream &operator<<(std::ostream &o, none);
 
-class sequence
-{};
+class composite;
+using sequence = std::vector<composite>; // composite does not need to be a complete type
+using mapping = std::unordered_map<std::string, composite>; // composite is incomplete type, trickery needed
 
-class mapping
-{};
+namespace implementation
+{
+    class mapping
+    {
+    public:
+        template <typename T>
+        constexpr explicit mapping(T&& m) noexcept
+            : d_impl(std::forward<T>(m))
+        {}
 
+        const ::composite::mapping &access() const;
+    private:
+        std::any d_impl;
+    };
+}
 
 }

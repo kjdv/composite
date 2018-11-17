@@ -48,7 +48,7 @@ struct deduce<T, typename std::enable_if<std::is_same<T, sequence>::value>::type
 template <typename T>
 struct deduce<T, typename std::enable_if<std::is_same<T, mapping>::value>::type>
 {
-    using type = mapping;
+    using type = implementation::mapping;
 };
 
 template <typename T>

@@ -1,4 +1,5 @@
 #include <types.hh>
+#include "composite.hh"
 #include "deduce.hh"
 
 using namespace std;
@@ -19,8 +20,8 @@ static_assert(is_same<string, decay_deduce<char []>::type>::value, "char[] does 
 static_assert(is_same<string, decay_deduce<const char *>::type>::value, "const char * does not map to string");
 static_assert(is_same<string, decay_deduce<string>::type>::value, "string does not map to string");
 static_assert(is_same<sequence, decay_deduce<sequence>::type>::value, "sequence does not map to sequence");
-static_assert(is_same<mapping, decay_deduce<mapping>::type>::value, "mapping does not map to mapping");
-static_assert(is_same<mapping, decay_deduce<mapping&>::type>::value, "mapping does not map to mapping");
-static_assert(is_same<mapping, decay_deduce<const mapping&>::type>::value, "mapping does not map to mapping");
+static_assert(is_same<implementation::mapping, decay_deduce<mapping>::type>::value, "mapping does not map to mapping");
+static_assert(is_same<implementation::mapping, decay_deduce<mapping&>::type>::value, "mapping does not map to mapping");
+static_assert(is_same<implementation::mapping, decay_deduce<const mapping&>::type>::value, "mapping does not map to mapping");
 
 }

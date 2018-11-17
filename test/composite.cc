@@ -59,6 +59,33 @@ TEST(composite, construct_string)
     EXPECT_EQ("foo", c.as<std::string>());
 }
 
+TEST(composite, construct_sequence)
+{
+    sequence s{composite(1), composite(3.14), composite("foo")};
+    composite c(s);
+
+    EXPECT_TRUE(c.is<sequence>());
+
+    const sequence &a = c.as<sequence>();
+    ASSERT_EQ(3, a.size());
+    EXPECT_EQ(1, a[0].as<int>());
+    EXPECT_EQ(3.14, a[1].as<double>());
+    EXPECT_EQ("foo", a[2].as<std::string>());
+}
+
+TEST(composite, construct_mapping)
+{
+    mapping m{{"pi", composite(3.14)}};
+    composite c(m);
+
+    EXPECT_TRUE(c.is<mapping>());
+
+    const mapping &a = c.as<mapping>();
+    auto it = a.find("pi");
+    ASSERT_NE(a.end(), it);
+    EXPECT_EQ(3.14, it->second.as<double>());
+}
+
 TEST(composite, is_copy_constructable)
 {
     static_assert(std::is_copy_constructible<composite>::value);
