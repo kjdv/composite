@@ -132,5 +132,35 @@ TEST(composite, is_move_assignable)
     EXPECT_EQ(3.14, b.as<double>());
 }
 
+TEST(composite, equality)
+{
+    struct{
+        composite left;
+        composite right;
+        bool equal;
+    } testcases[] = {
+        {composite(), composite(), true},
+        {composite(false), composite(false), true},
+        {composite(1), composite(1), true},
+        {composite(-3.14), composite(-3.14), true},
+        {composite("foo"), composite("foo"), true},
+
+        {composite(true), composite(false), false},
+        {composite(-1), composite(1), false},
+        {composite(3.14), composite(3.15), false},
+        {composite("foo"), composite("bar"), false},
+
+        {composite(none{}), composite(1), false},
+        {composite(2), composite(2.0), false},
+    };
+
+    for (auto&& tc : testcases)
+    {
+        EXPECT_EQ(tc.equal, tc.left == tc.right);
+        EXPECT_NE(tc.equal, tc.left != tc.right);
+    }
+}
+
+
 }
 }

@@ -27,18 +27,21 @@ using mapping = std::unordered_map<std::string, composite>; // composite is inco
 
 namespace implementation
 {
-    class mapping
-    {
-    public:
-        template <typename T>
-        constexpr explicit mapping(T&& m) noexcept
-            : d_impl(std::forward<T>(m))
-        {}
+class mapping
+{
+public:
+    template <typename T>
+    constexpr explicit mapping(T&& m) noexcept
+        : d_impl(std::forward<T>(m))
+    {}
 
-        const ::composite::mapping &access() const;
-    private:
-        std::any d_impl;
-    };
+    const ::composite::mapping &access() const;
+private:
+    std::any d_impl;
+};
+
+bool operator==(const mapping &a, const mapping &b) noexcept;
+
 }
 
 }

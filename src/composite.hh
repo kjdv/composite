@@ -27,6 +27,8 @@ public:
     constexpr const typename accessor<typename decay_deduce<T>::type>::type &as() const;
 
 private:
+    friend bool operator==(const composite &, const composite &) noexcept;
+
     std::variant<
         deduce<none>::type,
         deduce<bool>::type,
@@ -37,6 +39,13 @@ private:
         implementation::mapping // small kludge, composite::mapping is an incomplete type at this point
     > d_data;
 };
+
+bool operator==(const composite &a, const composite &b) noexcept;
+
+inline bool operator!=(const composite &a, const composite &b) noexcept
+{
+    return !(a == b);
+}
 
 template <typename T>
 constexpr bool composite::is() const noexcept
