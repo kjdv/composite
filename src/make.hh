@@ -1,6 +1,7 @@
 #pragma once
 
 #include "composite.hh"
+#include <string_view>
 
 namespace composite {
 
@@ -28,7 +29,17 @@ template <typename Head, typename... Tail>
 constexpr void make_sequence(sequence &s, Head&& head, Tail&&... tail)
 {
     s.emplace_back(std::forward<Head>(head));
-    make_sequence(s, std::forward<Tail>(tail)...);
+    implementation::make_sequence(s, std::forward<Tail>(tail)...);
+}
+
+constexpr inline void make_mapping(::composite::mapping &m)
+{}
+
+template <typename Head, typename... Tail>
+constexpr void make_mapping(::composite::mapping &m, std::string_view key, Head&& value, Tail&&... tail)
+{
+    m.emplace(key, value);
+    implementation::make_mapping(m, std::forward<Tail>(tail)...);
 }
 
 }
@@ -42,6 +53,31 @@ composite make_sequence(Ts&&... args)
     implementation::make_sequence(s, std::forward<Ts>(args)...);
 
     return composite(std::move(s));
+}
+
+template <typename... Ts>
+composite make_seq(Ts&&... args) // shorthand
+{
+    return make_sequence(std::forward<Ts>(args)...);
+}
+
+template <typename... Ts>
+composite make_mapping(Ts&&... args)
+{
+    static_assert((sizeof...(args) & 1) == 0, "arguments are key-value pairs, their number must be even");
+
+    mapping m;
+    m.reserve(sizeof...(args));
+
+    implementation::make_mapping(m, std::forward<Ts>(args)...);
+
+    return composite(std::move(m));
+}
+
+template <typename... Ts>
+composite make_map(Ts&&... args)
+{
+    return make_mapping(std::forward<Ts>(args)...);
 }
 
 }
