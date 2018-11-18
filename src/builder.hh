@@ -3,6 +3,7 @@
 #include "composite.hh"
 #include <stack>
 #include <variant>
+#include <optional>
 
 namespace composite {
 
