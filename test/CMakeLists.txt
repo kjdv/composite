@@ -1,5 +1,6 @@
 add_executable(composite_test
     access.cc
+    builder.cc
     composite.cc
     deduce.cc
     make.cc

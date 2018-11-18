@@ -1,5 +1,7 @@
 add_library(composite
     access.hh
+    builder.hh
+    builder.cc
     composite.hh
     composite.cc
     deduce.hh
