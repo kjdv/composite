@@ -34,7 +34,7 @@ struct deduce<T, typename std::enable_if<std::is_floating_point<T>::value>::type
 };
 
 template <typename T>
-struct deduce<T, typename std::enable_if<std::is_convertible<T, std::string>::value>::type>
+struct deduce<T, typename std::enable_if<std::is_convertible<T, std::string>::value || std::is_same<T, std::string_view>::value>::type>
 {
     using type = std::string;
 };

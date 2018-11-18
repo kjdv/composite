@@ -23,6 +23,7 @@ public:
     template <typename T>
     constexpr const typename accessor<typename decay_deduce<T>::type>::type &as() const;
 
+    // straightforward (non-recursive) visitor
     template <typename V>
     auto visit(V&& visitor) const;
 

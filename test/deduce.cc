@@ -19,6 +19,7 @@ static_assert(is_same<bool, decay_deduce<bool>::type>::value, "bool does not map
 static_assert(is_same<string, decay_deduce<char []>::type>::value, "char[] does not map to string");
 static_assert(is_same<string, decay_deduce<const char *>::type>::value, "const char * does not map to string");
 static_assert(is_same<string, decay_deduce<string>::type>::value, "string does not map to string");
+static_assert(is_same<string, decay_deduce<string_view>::type>::value, "string_view does not map to string");
 static_assert(is_same<sequence, decay_deduce<sequence>::type>::value, "sequence does not map to sequence");
 static_assert(is_same<implementation::mapping, decay_deduce<mapping>::type>::value, "mapping does not map to mapping");
 static_assert(is_same<implementation::mapping, decay_deduce<mapping&>::type>::value, "mapping does not map to mapping");

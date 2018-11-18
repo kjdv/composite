@@ -7,6 +7,8 @@ add_library(composite
     traits.hh
     types.cc
     types.hh
+    visitor.hh
+    visitor.cc
 )
 target_include_directories(composite
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}

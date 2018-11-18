@@ -4,6 +4,7 @@ add_executable(composite_test
     deduce.cc
     make.cc
     sample.hh
+    visitor.cc
 )
 target_link_libraries(composite_test
     PRIVATE
