@@ -27,7 +27,6 @@ public:
     auto visit(V&& visitor) const;
 
 private:
-    friend bool operator==(const composite &, const composite &) noexcept;
     friend std::size_t hash(const composite &) noexcept;
 
     using variant_t = std::variant<
