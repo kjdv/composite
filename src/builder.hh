@@ -10,20 +10,21 @@ class builder
 {
 public:
     template <typename T>
-    builder &with(T &&value);
+    builder& with(T&& value);
 
     template <typename T>
-    builder &with(std::string_view key, T &&value);
+    builder& with(std::string_view key, T&& value);
 
-    builder &push_sequence();
-    builder &push_sequence(std::string_view key);
+    builder& push_sequence();
+    builder& push_sequence(std::string_view key);
 
-    builder &push_mapping();
-    builder &push_mapping(std::string_view key);
+    builder& push_mapping();
+    builder& push_mapping(std::string_view key);
 
-    builder &pop();
+    builder& pop();
 
     composite build();
+
 private:
     bool is_sequence() const;
 
@@ -31,20 +32,20 @@ private:
 
     bool is_top() const;
 
-    sequence &as_seq();
+    sequence& as_seq();
 
-    mapping &as_map();
+    mapping& as_map();
 
     struct item
     {
         std::variant</* scalar */ composite, sequence, mapping> value;
-        std::optional<std::string> key;
+        std::optional<std::string>                              key;
     };
     std::stack<item> d_stack;
 };
 
 template <typename T>
-builder &builder::with(T && value)
+builder& builder::with(T&& value)
 {
     if(is_top())
         d_stack.emplace(item{{composite(std::forward<T>(value))}});
@@ -54,10 +55,10 @@ builder &builder::with(T && value)
 }
 
 template <typename T>
-builder &builder::with(std::string_view key, T&& value)
+builder& builder::with(std::string_view key, T&& value)
 {
     as_map().emplace(key, std::forward<T>(value));
     return *this;
 }
 
-}
+} // namespace composite

@@ -7,7 +7,7 @@ namespace {
 
 struct helper
 {
-    visitor &base;
+    visitor& base;
 
     template <typename T>
     void operator()(T&& item)
@@ -15,7 +15,7 @@ struct helper
         base.visit(std::forward<T>(item));
     }
 
-    void operator()(const sequence &s)
+    void operator()(const sequence& s)
     {
         base.start_sequence();
 
@@ -28,7 +28,7 @@ struct helper
         base.sentinel();
     }
 
-    void operator()(const mapping &m)
+    void operator()(const mapping& m)
     {
         base.start_mapping();
 
@@ -42,7 +42,7 @@ struct helper
     }
 };
 
-}
+} // namespace
 
 void visitor::index(std::size_t)
 {}
@@ -59,10 +59,9 @@ void visitor::start_mapping()
 void visitor::sentinel()
 {}
 
-
-void apply(const composite &c, visitor &v)
+void apply(const composite& c, visitor& v)
 {
     c.visit(helper{v});
 }
 
-}
+} // namespace composite

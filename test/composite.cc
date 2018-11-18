@@ -1,6 +1,6 @@
 #include "composite.hh"
-#include <sstream>
 #include <gtest/gtest.h>
+#include <sstream>
 
 namespace composite {
 namespace {
@@ -11,7 +11,7 @@ TEST(composite, default_constructs_as_none)
 
     EXPECT_TRUE(c.is<none>());
     EXPECT_TRUE(c.is<void>());
-    EXPECT_TRUE(c.is<const none &>());
+    EXPECT_TRUE(c.is<const none&>());
 
     EXPECT_EQ(none{}, c.as<none>());
     EXPECT_EQ(none{}, c.as<void>());
@@ -42,7 +42,7 @@ TEST(composite, construct_int)
 
 TEST(composite, construct_float)
 {
-    double p = 3.1415;
+    double    p = 3.1415;
     composite c(p);
 
     EXPECT_FALSE(c.is<int>());
@@ -62,12 +62,12 @@ TEST(composite, construct_string)
 
 TEST(composite, construct_sequence)
 {
-    sequence s{composite(1), composite(3.14), composite("foo")};
+    sequence  s{composite(1), composite(3.14), composite("foo")};
     composite c(s);
 
     EXPECT_TRUE(c.is<sequence>());
 
-    const sequence &a = c.as<sequence>();
+    const sequence& a = c.as<sequence>();
     ASSERT_EQ(3, a.size());
     EXPECT_EQ(1, a[0].as<int>());
     EXPECT_EQ(3.14, a[1].as<double>());
@@ -76,13 +76,13 @@ TEST(composite, construct_sequence)
 
 TEST(composite, construct_mapping)
 {
-    mapping m{{"pi", composite(3.14)}};
+    mapping   m{{"pi", composite(3.14)}};
     composite c(m);
 
     EXPECT_TRUE(c.is<mapping>());
 
-    const mapping &a = c.as<mapping>();
-    auto it = a.find("pi");
+    const mapping& a  = c.as<mapping>();
+    auto           it = a.find("pi");
     ASSERT_NE(a.end(), it);
     EXPECT_EQ(3.14, it->second.as<double>());
 }
@@ -135,10 +135,11 @@ TEST(composite, is_move_assignable)
 
 TEST(composite, equality)
 {
-    struct{
+    struct
+    {
         composite left;
         composite right;
-        bool equal;
+        bool      equal;
     } testcases[] = {
         {composite(), composite(), true},
         {composite(false), composite(false), true},
@@ -155,7 +156,7 @@ TEST(composite, equality)
         {composite(2), composite(2.0), false},
     };
 
-    for (auto&& tc : testcases)
+    for(auto&& tc : testcases)
     {
         EXPECT_EQ(tc.equal, tc.left == tc.right);
         EXPECT_NE(tc.equal, tc.left != tc.right);
@@ -166,9 +167,10 @@ TEST(composite, print)
 {
     using namespace std;
 
-    struct{
+    struct
+    {
         composite item;
-        string expect;
+        string    expect;
     } testcases[] = {
         {composite(), "<none>"},
         {composite(true), "true"},
@@ -178,18 +180,16 @@ TEST(composite, print)
         {composite("foo"), "foo"},
 
         {composite(
-            sequence({
-                composite(1),
-                composite("bar")
-            })
-        ), "[1, bar]"},
+             sequence({composite(1),
+                       composite("bar")})),
+         "[1, bar]"},
 
         {composite(
-            mapping({{"pi", composite(3.14)}})
-         ), "{pi: 3.14}"},
+             mapping({{"pi", composite(3.14)}})),
+         "{pi: 3.14}"},
     };
 
-    for (auto&& tc : testcases)
+    for(auto&& tc : testcases)
     {
         ostringstream os;
         os << tc.item;
@@ -198,5 +198,5 @@ TEST(composite, print)
     }
 }
 
-}
-}
+} // namespace
+} // namespace composite

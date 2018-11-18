@@ -11,29 +11,30 @@ public:
         : d_msg(msg)
     {}
 
-    const char *what() const noexcept override
+    const char* what() const noexcept override
     {
         return d_msg.c_str();
     }
+
 private:
     std::string d_msg;
 };
 
-constexpr const composite &access(const composite &c) noexcept;
+constexpr const composite& access(const composite& c) noexcept;
 
 template <typename... Tail>
-const composite &access(const composite &c, std::size_t idx, Tail&&... tail);
+const composite& access(const composite& c, std::size_t idx, Tail&&... tail);
 
 template <typename... Tail>
-const composite &access(const composite &c, std::string_view key, Tail&&... tail);
+const composite& access(const composite& c, std::string_view key, Tail&&... tail);
 
-constexpr inline const composite &access(const composite &c) noexcept
+constexpr inline const composite& access(const composite& c) noexcept
 {
     return c;
 }
 
 template <typename... Tail>
-const composite &access(const composite &c, std::size_t idx, Tail&&... tail)
+const composite& access(const composite& c, std::size_t idx, Tail&&... tail)
 {
     if(!c.is<sequence>())
         throw bad_access("not a sequence");
@@ -47,13 +48,13 @@ const composite &access(const composite &c, std::size_t idx, Tail&&... tail)
 }
 
 template <typename... Tail>
-const composite &access(const composite &c, std::string_view key, Tail&&... tail)
+const composite& access(const composite& c, std::string_view key, Tail&&... tail)
 {
     if(!c.is<mapping>())
         throw bad_access("not a mapping");
 
-    auto& m = c.as<mapping>();
-    auto it = m.find(mapping::key_type(key));
+    auto& m  = c.as<mapping>();
+    auto  it = m.find(mapping::key_type(key));
 
     if(it == m.end())
         throw bad_access("key not found in map");
@@ -61,5 +62,4 @@ const composite &access(const composite &c, std::string_view key, Tail&&... tail
     return access(it->second, std::forward<Tail>(tail)...);
 }
 
-
-}
+} // namespace composite

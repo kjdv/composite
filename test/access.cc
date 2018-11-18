@@ -15,7 +15,6 @@ TEST(access, scalars)
     EXPECT_EQ(1, access(sample, "scalars", 3).as<int>());
     EXPECT_EQ(3.14, access(sample, "scalars", 4).as<double>());
     EXPECT_EQ("foo", access(sample, "scalars", 5).as<string>());
-
 }
 
 TEST(access, nested)
@@ -45,5 +44,5 @@ TEST(access, bad_key_throws)
     EXPECT_THROW(access(sample, "mappings", "3d"), bad_access);
 }
 
-}
-}
+} // namespace
+} // namespace composite

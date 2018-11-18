@@ -1,6 +1,6 @@
 #include "builder.hh"
-#include "sample.hh"
 #include "access.hh"
+#include "sample.hh"
 #include <gtest/gtest.h>
 
 // clang-format off

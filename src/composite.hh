@@ -1,14 +1,15 @@
 #pragma once
 
-#include <variant>
-#include <string>
-#include "types.hh"
 #include "deduce.hh"
 #include "traits.hh"
+#include "types.hh"
+#include <string>
+#include <variant>
 
 namespace composite {
 
-class composite {
+class composite
+{
 public:
     constexpr explicit composite() noexcept
         : d_data{none{}}
@@ -21,7 +22,7 @@ public:
     constexpr bool is() const noexcept;
 
     template <typename T>
-    constexpr const typename accessor<typename decay_deduce<T>::type>::type &as() const;
+    constexpr const typename accessor<typename decay_deduce<T>::type>::type& as() const;
 
     // straightforward (non-recursive) visitor
     template <typename V>
@@ -36,19 +37,19 @@ private:
         deduce<std::string>::type,
         deduce<sequence>::type,
         implementation::mapping // small kludge, composite::mapping is an incomplete type at this point
-    >;
+        >;
 
     variant_t d_data;
 };
 
-bool operator==(const composite &a, const composite &b) noexcept;
+bool operator==(const composite& a, const composite& b) noexcept;
 
-inline bool operator!=(const composite &a, const composite &b) noexcept
+inline bool operator!=(const composite& a, const composite& b) noexcept
 {
     return !(a == b);
 }
 
-std::ostream &operator<<(std::ostream &o, const composite &c) noexcept;
+std::ostream& operator<<(std::ostream& o, const composite& c) noexcept;
 
 template <typename T, typename U>
 constexpr composite::composite(T&& value) noexcept
@@ -62,7 +63,7 @@ constexpr bool composite::is() const noexcept
 }
 
 template <typename T>
-constexpr const typename accessor<typename decay_deduce<T>::type>::type &composite::as() const
+constexpr const typename accessor<typename decay_deduce<T>::type>::type& composite::as() const
 {
     accessor<typename decay_deduce<T>::type> a;
     return a(std::get<typename decay_deduce<T>::type>(d_data));
@@ -79,4 +80,4 @@ auto composite::visit(V&& visitor) const
     return std::visit(wrapped, d_data);
 }
 
-}
+} // namespace composite

@@ -6,7 +6,7 @@ namespace composite {
 
 using namespace std;
 
-bool operator==(const composite &a, const composite &b) noexcept
+bool operator==(const composite& a, const composite& b) noexcept
 {
     return a.visit([&b](auto&& v) {
         using T = decay_t<decltype(v)>;
@@ -15,7 +15,7 @@ bool operator==(const composite &a, const composite &b) noexcept
     });
 }
 
-ostream &operator<<(ostream &o, const composite &c) noexcept
+ostream& operator<<(ostream& o, const composite& c) noexcept
 {
     c.visit([&o](auto&& v) {
         o << boolalpha << v;
@@ -23,5 +23,4 @@ ostream &operator<<(ostream &o, const composite &c) noexcept
     return o;
 }
 
-}
-
+} // namespace composite

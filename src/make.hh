@@ -20,30 +20,29 @@ composite make_scalar(T&& v)
     return make(std::forward<T>(v));
 }
 
-namespace implementation
-{
+namespace implementation {
 
-constexpr inline void make_sequence(sequence &s)
+constexpr inline void make_sequence(sequence& s)
 {}
 
 template <typename Head, typename... Tail>
-constexpr void make_sequence(sequence &s, Head&& head, Tail&&... tail)
+constexpr void make_sequence(sequence& s, Head&& head, Tail&&... tail)
 {
     s.emplace_back(std::forward<Head>(head));
     implementation::make_sequence(s, std::forward<Tail>(tail)...);
 }
 
-constexpr inline void make_mapping(::composite::mapping &m)
+constexpr inline void make_mapping(::composite::mapping& m)
 {}
 
 template <typename Head, typename... Tail>
-constexpr void make_mapping(::composite::mapping &m, std::string_view key, Head&& value, Tail&&... tail)
+constexpr void make_mapping(::composite::mapping& m, std::string_view key, Head&& value, Tail&&... tail)
 {
     m.emplace(key, value);
     implementation::make_mapping(m, std::forward<Tail>(tail)...);
 }
 
-}
+} // namespace implementation
 
 template <typename... Ts>
 composite make_sequence(Ts&&... args)
@@ -81,4 +80,4 @@ composite make_map(Ts&&... args)
     return make_mapping(std::forward<Ts>(args)...);
 }
 
-}
+} // namespace composite

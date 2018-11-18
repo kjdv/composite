@@ -6,6 +6,8 @@
 namespace composite {
 namespace {
 
+// clang-format off
+
 // sample composite, using pretty much all features
 const composite sample = make_map(
             "scalars", make_seq(

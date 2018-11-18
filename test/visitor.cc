@@ -1,9 +1,9 @@
 #include "visitor.hh"
-#include "sample.hh"
 #include "access.hh"
-#include <stack>
-#include <gtest/gtest.h>
+#include "sample.hh"
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include <stack>
 
 namespace composite {
 namespace {
@@ -86,11 +86,11 @@ public:
 
         if(d_state.top() == state::map_first)
         {
-           d_state.pop();
-           d_state.push(state::map_next);
+            d_state.pop();
+            d_state.push(state::map_next);
         }
         else
-             d_str << ", ";
+            d_str << ", ";
 
         d_str << quoted(key) << ": ";
     }
@@ -132,7 +132,9 @@ public:
 private:
     std::ostringstream d_str;
 
-    enum class state {seq, map_first, map_next};
+    enum class state { seq,
+                       map_first,
+                       map_next };
     stack<state> d_state;
 };
 
@@ -147,7 +149,7 @@ TEST(visitor, flat)
 TEST(visitor, flat_map)
 {
     scalar_collector c;
-    auto m = access(sample, "mappings", "1d");
+    auto             m = access(sample, "mappings", "1d");
 
     apply(m, c);
 
@@ -179,5 +181,5 @@ TEST(visitor, jsonify_map)
     EXPECT_EQ(R"|({"b": {"e": 2.72}, "a": {"pi": 3.14}})|", js.build());
 }
 
-}
-}
+} // namespace
+} // namespace composite

@@ -34,8 +34,8 @@ TEST(make, empty_sequence)
 TEST(make, nested_sequence)
 {
     auto c = make_seq(
-                make_seq(1, 2),
-                make_seq(3, 4));
+        make_seq(1, 2),
+        make_seq(3, 4));
 
     auto top = c.as<sequence>();
     ASSERT_EQ(2, top.size());
@@ -72,8 +72,7 @@ TEST(make, empty_mapping)
 TEST(make, nested_mapping)
 {
     auto c = make_map(
-                "a", make_map("pi", 3.14),
-                "b", make_map("e", 2.72));
+        "a", make_map("pi", 3.14), "b", make_map("e", 2.72));
     auto m = c.as<mapping>();
 
     EXPECT_EQ(make_map("pi", 3.14), m.find("a")->second);
@@ -83,22 +82,22 @@ TEST(make, nested_mapping)
 TEST(make, seq_in_map)
 {
     auto c = make_map(
-                "seq", make_seq(1, 2, 3));
+        "seq", make_seq(1, 2, 3));
 
     EXPECT_EQ(make_seq(1, 2, 3), c.as<mapping>().find("seq")->second);
 }
 
 TEST(make, map_in_seq)
 {
-    auto c= make_seq(
-                make_map(
-                    "a", "foo"),
-                make_map(
-                    "b", "bar"));
+    auto c = make_seq(
+        make_map(
+            "a", "foo"),
+        make_map(
+            "b", "bar"));
 
     EXPECT_EQ(make_map("a", "foo"), c.as<sequence>()[0]);
     EXPECT_EQ(make_map("b", "bar"), c.as<sequence>()[1]);
 }
 
-}
-}
+} // namespace
+} // namespace composite

@@ -1,13 +1,14 @@
 #pragma once
 
-#include <type_traits>
 #include "types.hh"
+#include <type_traits>
 
 namespace composite {
 
 template <typename T, typename U = void>
 struct deduce
-{};
+{
+};
 
 template <typename T>
 struct deduce<T, typename std::enable_if<std::is_void<T>::value || std::is_same<T, none>::value>::type>
@@ -53,6 +54,7 @@ struct deduce<T, typename std::enable_if<std::is_same<T, mapping>::value>::type>
 
 template <typename T>
 struct decay_deduce : public deduce<typename std::decay<T>::type>
-{};
+{
+};
 
-}
+} // namespace composite

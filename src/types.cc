@@ -1,36 +1,36 @@
 #include "types.hh"
 #include "composite.hh"
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 #include <iostream>
 
 namespace composite {
 
 using namespace std;
 
-ostream &operator<<(ostream &o, none)
+ostream& operator<<(ostream& o, none)
 {
     return o << "<none>";
 }
 
 namespace implementation {
 
-const ::composite::mapping &implementation::mapping::access() const
+const ::composite::mapping& implementation::mapping::access() const
 {
     auto p = std::any_cast<::composite::mapping>(&d_impl);
     assert(p != nullptr && "implementation::mapping not correctly constructed");
     return *p;
 }
 
-bool operator==(const mapping &a, const mapping &b) noexcept
+bool operator==(const mapping& a, const mapping& b) noexcept
 {
     accessor<mapping> acc;
     return acc(a) == acc(b);
 }
 
-}
+} // namespace implementation
 
-ostream &operator<<(ostream &o, const mapping &m)
+ostream& operator<<(ostream& o, const mapping& m)
 {
     o << '{';
 
@@ -47,7 +47,7 @@ ostream &operator<<(ostream &o, const mapping &m)
     return o;
 }
 
-ostream &operator<<(ostream &o, const sequence &s)
+ostream& operator<<(ostream& o, const sequence& s)
 {
     o << '[';
 
@@ -64,4 +64,4 @@ ostream &operator<<(ostream &o, const sequence &s)
     return o;
 }
 
-}
+} // namespace composite
