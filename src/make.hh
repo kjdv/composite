@@ -6,6 +6,7 @@
 namespace composite {
 
 // utilities to make constructing composities less typing
+// check builder if you need something more dynamic
 
 template <typename T>
 composite make(T&& v)
