@@ -7,7 +7,7 @@ namespace composite {
 class bad_access : public std::bad_variant_access
 {
 public:
-    bad_access(std::string_view msg)
+    explicit bad_access(std::string_view msg) noexcept
         : d_msg(msg)
     {}
 
@@ -19,15 +19,15 @@ private:
     std::string d_msg;
 };
 
-const composite &access(const composite &c);
+constexpr const composite &access(const composite &c) noexcept;
 
 template <typename... Tail>
 const composite &access(const composite &c, std::size_t idx, Tail&&... tail);
 
 template <typename... Tail>
-const composite &access(const composite &c, const std::string &key, Tail&&... tail);
+const composite &access(const composite &c, std::string_view key, Tail&&... tail);
 
-inline const composite &access(const composite &c)
+constexpr inline const composite &access(const composite &c) noexcept
 {
     return c;
 }
@@ -47,13 +47,13 @@ const composite &access(const composite &c, std::size_t idx, Tail&&... tail)
 }
 
 template <typename... Tail>
-const composite &access(const composite &c, const std::string &key, Tail&&... tail)
+const composite &access(const composite &c, std::string_view key, Tail&&... tail)
 {
     if(!c.is<mapping>())
         throw bad_access("not a mapping");
 
     auto& m = c.as<mapping>();
-    auto it = m.find(key);
+    auto it = m.find(mapping::key_type(key));
 
     if(it == m.end())
         throw bad_access("key not found in map");
