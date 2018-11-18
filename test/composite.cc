@@ -1,7 +1,6 @@
 #include "composite.hh"
 #include <sstream>
 #include <gtest/gtest.h>
-#include <unordered_set>
 
 namespace composite {
 namespace {
@@ -197,29 +196,6 @@ TEST(composite, print)
 
         EXPECT_EQ(tc.expect, os.str());
     }
-}
-
-TEST(composite, hashable)
-{
-    std::unordered_set<composite> s;
-    composite c(1);
-
-    EXPECT_EQ(s.end(), s.find(c));
-
-    s.insert(c);
-    EXPECT_NE(s.end(), s.find(c));
-
-    composite v(sequence({composite("foo")}));
-    EXPECT_EQ(s.end(), s.find(v));
-
-    s.insert(v);
-    EXPECT_NE(s.end(), s.find(v));
-
-    composite m(mapping({{"pi", composite(3.14)}}));
-    EXPECT_EQ(s.end(), s.find(m));
-
-    s.insert(m);
-    EXPECT_NE(s.end(), s.find(m));
 }
 
 }

@@ -50,33 +50,3 @@ bool operator==(const mapping &a, const mapping &b) noexcept;
 }
 
 }
-
-
-namespace std {
-
-template <>
-struct hash<composite::none>
-{
-    typedef composite::none argument_type;
-    typedef std::size_t result_type;
-    result_type operator()(argument_type) const noexcept;
-};
-
-template <>
-struct hash<composite::sequence>
-{
-    typedef composite::sequence argument_type;
-    typedef std::size_t result_type;
-    result_type operator()(const argument_type &c) const noexcept;
-};
-
-template <>
-struct hash<composite::implementation::mapping>
-{
-    typedef composite::implementation::mapping argument_type;
-    typedef std::size_t result_type;
-    result_type operator()(const argument_type &c) const noexcept;
-};
-
-
-}

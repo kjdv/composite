@@ -23,11 +23,5 @@ ostream &operator<<(ostream &o, const composite &c) noexcept
     return o;
 }
 
-size_t hash(const composite &c) noexcept
-{
-    std::hash<composite::variant_t> hasher{};
-    return hasher(c.d_data);
-}
-
 }
 

@@ -27,8 +27,6 @@ public:
     auto visit(V&& visitor) const;
 
 private:
-    friend std::size_t hash(const composite &) noexcept;
-
     using variant_t = std::variant<
         deduce<none>::type,
         deduce<bool>::type,
@@ -79,22 +77,5 @@ auto composite::visit(V&& visitor) const
     };
     return std::visit(wrapped, d_data);
 }
-
-std::size_t hash(const composite &c) noexcept;
-
-}
-
-namespace std {
-
-template <>
-struct hash<composite::composite>
-{
-    typedef composite::composite argument_type;
-    typedef std::size_t result_type;
-    result_type operator()(const argument_type &c) const noexcept
-    {
-        return composite::hash(c);
-    }
-};
 
 }
