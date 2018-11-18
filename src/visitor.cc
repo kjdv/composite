@@ -19,8 +19,11 @@ struct helper
     {
         base.start_sequence();
 
-        for(auto&& item : s)
-            apply(item, base);
+        for(size_t i = 0; i < s.size(); ++i)
+        {
+            base.index(i);
+            apply(s[i], base);
+        }
 
         base.sentinel();
     }
@@ -30,7 +33,10 @@ struct helper
         base.start_mapping();
 
         for(auto&& kv : m)
+        {
+            base.key(kv.first);
             apply(kv.second, base);
+        }
 
         base.sentinel();
     }
