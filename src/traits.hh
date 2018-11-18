@@ -18,7 +18,7 @@ template <>
 struct accessor<implementation::mapping>
 {
     using type = mapping;
-    const mapping& operator()(const implementation::mapping& v) const
+    const type& operator()(const implementation::mapping& v) const
     {
         return v.access();
     }
