@@ -73,7 +73,12 @@ constexpr const typename accessor<typename decay_deduce<T>::type>::type &composi
 template <typename V>
 auto composite::visit(V&& visitor) const
 {
-    return std::visit(visitor, d_data);
+    auto wrapped = [&visitor](auto&& v) {
+        using T = std::decay_t<decltype(v)>;
+        accessor<T> acc;
+        return visitor(acc(v));
+    };
+    return std::visit(wrapped, d_data);
 }
 
 std::size_t hash(const composite &c) noexcept;

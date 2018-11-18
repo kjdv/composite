@@ -13,13 +13,10 @@ bool operator==(const composite &a, const composite &b) noexcept
 
 ostream &operator<<(ostream &o, const composite &c) noexcept
 {
-    return c.visit([&o](auto&& v) {
-        using T = std::decay_t<decltype(v)>;
-        accessor<T> acc;
-
-        o << boolalpha << acc(v);
-        return std::ref(o);
+    c.visit([&o](auto&& v) {
+        o << boolalpha << v;
     });
+    return o;
 }
 
 size_t hash(const composite &c) noexcept
