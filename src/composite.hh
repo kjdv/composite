@@ -24,7 +24,7 @@ public:
     constexpr const typename accessor<typename decay_deduce<T>::type>::type &as() const;
 
     template <typename V>
-    decltype(auto) visit(V&& visitor) const;
+    auto visit(V&& visitor) const;
 
 private:
     friend bool operator==(const composite &, const composite &) noexcept;
@@ -71,7 +71,7 @@ constexpr const typename accessor<typename decay_deduce<T>::type>::type &composi
 }
 
 template <typename V>
-decltype(auto) composite::visit(V&& visitor) const
+auto composite::visit(V&& visitor) const
 {
     return std::visit(visitor, d_data);
 }
