@@ -2,6 +2,7 @@ add_library(composite
     composite.hh
     composite.cc
     deduce.hh
+    make.hh
     traits.hh
     types.cc
     types.hh
