@@ -1,5 +1,5 @@
-#include "types.hh"
-#include "composite.hh"
+#include <composite/types.hh>
+#include <composite/composite.hh>
 #include <algorithm>
 #include <cassert>
 #include <iostream>

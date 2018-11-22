@@ -1,19 +1,22 @@
+set(HEADERS
+    include/composite/access.hh
+    include/composite/builder.hh
+    include/composite/composite.hh
+    include/composite/deduce.hh
+    include/composite/make.hh
+    include/composite/traits.hh
+    include/composite/types.hh
+    include/composite/visitor.hh)
+
 add_library(composite
-    access.hh
-    builder.hh
+    ${HEADERS}
     builder.cc
-    composite.hh
     composite.cc
-    deduce.hh
-    make.hh
-    traits.hh
     types.cc
-    types.hh
-    visitor.hh
     visitor.cc
 )
 target_include_directories(composite
-    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+    PUBLIC BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 if(APPLE)

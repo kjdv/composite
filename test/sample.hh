@@ -1,7 +1,7 @@
 #pragma once
 
-#include "composite.hh"
-#include "make.hh"
+#include <composite/composite.hh>
+#include <composite/make.hh>
 
 namespace composite {
 namespace {

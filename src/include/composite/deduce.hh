@@ -8,8 +8,7 @@ namespace composite {
 
 template <typename T, typename U = void>
 struct deduce
-{
-};
+{};
 
 template <typename T>
 struct deduce<T, typename std::enable_if<std::is_void<T>::value || std::is_same<T, none>::value>::type>

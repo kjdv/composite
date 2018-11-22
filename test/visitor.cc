@@ -1,5 +1,5 @@
-#include "visitor.hh"
-#include "access.hh"
+#include <composite/visitor.hh>
+#include <composite/access.hh>
 #include "sample.hh"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

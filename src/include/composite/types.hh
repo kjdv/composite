@@ -8,8 +8,7 @@
 namespace composite {
 
 struct none
-{
-};
+{};
 
 inline bool operator==(none a, none b)
 {

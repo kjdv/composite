@@ -1,4 +1,4 @@
-#include "composite.hh"
+#include <composite/composite.hh>
 #include <functional>
 #include <iomanip>
 
