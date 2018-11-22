@@ -23,3 +23,8 @@ if(APPLE)
     target_compile_options(composite PUBLIC -mmacosx-version-min=10.14)
     target_link_libraries(composite PUBLIC -mmacosx-version-min=10.14)
 endif()
+
+
+# install rules
+install(FILES ${HEADERS} DESTINATION include/composite)
+install(TARGETS composite DESTINATION lib)
