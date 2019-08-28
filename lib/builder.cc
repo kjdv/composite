@@ -1,4 +1,4 @@
-#include <composite/builder.hh>
+#include <builder.hh>
 #include <cassert>
 
 namespace composite {

@@ -1,4 +1,4 @@
-#include <composite/access.hh>
+#include <access.hh>
 #include "sample.hh"
 #include <gtest/gtest.h>
 

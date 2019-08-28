@@ -1,5 +1,5 @@
-#include <composite/builder.hh>
-#include <composite/access.hh>
+#include <builder.hh>
+#include <access.hh>
 #include "sample.hh"
 #include <gtest/gtest.h>
 

@@ -1,4 +1,4 @@
-#include <composite/visitor.hh>
+#include <visitor.hh>
 #include <cassert>
 
 namespace composite {

@@ -1,6 +1,6 @@
-#include <composite/deduce.hh>
-#include <composite/composite.hh>
-#include <composite/types.hh>
+#include <deduce.hh>
+#include <composite.hh>
+#include <types.hh>
 
 using namespace std;
 

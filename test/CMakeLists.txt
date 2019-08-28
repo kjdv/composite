@@ -1,15 +1,6 @@
-add_executable(composite_test
-    access.cc
-    builder.cc
-    composite.cc
-    deduce.cc
-    make.cc
-    sample.hh
-    visitor.cc
-)
-target_link_libraries(composite_test
-    PRIVATE
-      composite
-      gtest
-)
-add_test(composite_test composite_test)
+file(GLOB sources *.c *.cc *.cpp *.h *.hh)
+
+add_executable(composite_test ${sources})
+target_link_libraries(composite_test composite ${GMOCK_LIBRARIES} GTest::GTest GTest::Main)
+
+gtest_discover_tests(composite_test)

@@ -1,4 +1,4 @@
-#include <composite/make.hh>
+#include <make.hh>
 #include <gtest/gtest.h>
 
 namespace composite {

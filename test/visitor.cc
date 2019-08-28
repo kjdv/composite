@@ -1,5 +1,5 @@
-#include <composite/visitor.hh>
-#include <composite/access.hh>
+#include <visitor.hh>
+#include <access.hh>
 #include "sample.hh"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -49,7 +49,7 @@ public:
         d_str << boolalpha;
     }
 
-    void visit(deduce<void>::type v) override
+    void visit(deduce<void>::type) override
     {
         d_str << "null";
     }
