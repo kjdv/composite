@@ -11,10 +11,10 @@ class builder
 {
 public:
     template <typename T>
-    builder& with(T&& value);
+    builder& with(T value);
 
     template <typename T>
-    builder& with(std::string_view key, T&& value);
+    builder& with(std::string_view key, T value);
 
     builder& push_sequence();
     builder& push_sequence(std::string_view key);
@@ -46,19 +46,19 @@ private:
 };
 
 template <typename T>
-builder& builder::with(T&& value)
+builder& builder::with(T value)
 {
     if(is_top())
-        d_stack.emplace(item{{composite(std::forward<T>(value))}});
+        d_stack.emplace(item{{composite(std::move(value))}});
     else
-        as_seq().emplace_back(std::forward<T>(value));
+        as_seq().emplace_back(std::move(value));
     return *this;
 }
 
 template <typename T>
-builder& builder::with(std::string_view key, T&& value)
+builder& builder::with(std::string_view key, T value)
 {
-    as_map().emplace(key, std::forward<T>(value));
+    as_map().emplace(key, std::move(value));
     return *this;
 }
 

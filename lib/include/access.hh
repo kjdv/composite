@@ -7,15 +7,9 @@ namespace composite {
 class bad_access : public std::bad_variant_access
 {
 public:
-    explicit bad_access(std::string_view msg) noexcept
-        : d_msg(msg)
-    {}
+    explicit bad_access(std::string_view msg) noexcept;
 
-    const char* what() const noexcept override
-    {
-        return d_msg.c_str();
-    }
-
+    const char* what() const noexcept override;
 private:
     std::string d_msg;
 };
