@@ -24,50 +24,60 @@ template <>
 struct caster<none>
 {
   template <typename To>
-  To cast(const none &) const
+  To cast(none) const
   {
     throw std::bad_cast();
   }
 
   template<>
-  none cast<none>(const none &) const
+  none cast<none>(none) const;
+
+  template<>
+  std::string cast<std::string>(none) const;
+};
+
+template <>
+struct caster<bool>
+{
+  template <typename To, std::enable_if_t<std::is_arithmetic<To>::value, int> = 0>
+  To cast(bool value) const
   {
-    return none{};
+    return static_cast<To>(value);
+  }
+
+  template <typename To, std::enable_if_t<!std::is_arithmetic<To>::value, int> = 0>
+  To cast(bool) const
+  {
+    throw std::bad_cast();
   }
 
   template<>
-  std::string cast<std::string>(const none &) const
-  {
-    return "<none>";
-  }
+  std::string cast<std::string>(bool value) const;
+
+  template <>
+  none cast<none>(bool) const;
 };
 
 template <>
 struct caster<int64_t>
 {
   template <typename To, std::enable_if_t<std::is_arithmetic<To>::value, int> = 0>
-  To cast(const int64_t &value) const
+  To cast(int64_t value) const
   {
     return static_cast<To>(value);
   }
 
   template <typename To, std::enable_if_t<!std::is_arithmetic<To>::value, int> = 0>
-  To cast(const int64_t &) const
+  To cast(int64_t) const
   {
     throw std::bad_cast();
   }
 
   template<>
-  std::string cast<std::string>(const int64_t &value) const
-  {
-    return std::to_string(value);
-  }
+  std::string cast<std::string>(int64_t value) const;
 
   template <>
-  none cast<none>(const int64_t &) const
-  {
-    return none{};
-  }
+  none cast<none>(int64_t) const;
 };
 
 }

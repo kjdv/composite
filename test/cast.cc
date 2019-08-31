@@ -15,6 +15,20 @@ TEST(cast_test, from_none)
   EXPECT_THROW(cast<int>(none{}), std::bad_cast);
 }
 
+TEST(cast_test, from_bool)
+{
+  using From = deduce<bool>::type;
+  EXPECT_EQ(none{}, cast<none>(From{true}));
+  EXPECT_EQ(true, cast<bool>(From{true}));
+  EXPECT_EQ(false, cast<bool>(From{false}));
+  EXPECT_EQ(1, cast<unsigned int>(From{true}));
+  EXPECT_EQ(1.0, cast<double>(From{true}));
+  EXPECT_EQ(0.0, cast<double>(From{false}));
+  EXPECT_EQ("true", cast<string>(From{true}));
+  EXPECT_EQ("false", cast<string>(From{false}));
+  EXPECT_THROW(cast<sequence>(From{0}), std::bad_cast);
+}
+
 TEST(cast_test, from_int)
 {
   using From = deduce<int>::type;
