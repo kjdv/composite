@@ -3,6 +3,7 @@
 #include "deduce.hh"
 #include "traits.hh"
 #include "types.hh"
+#include "cast.hh"
 #include <string>
 #include <variant>
 
@@ -23,6 +24,9 @@ public:
 
     template <typename T>
     constexpr const typename accessor<typename decay_deduce<T>::type>::type& as() const;
+
+    template <typename T>
+    constexpr typename decay_deduce<T>::type to() const;
 
     // straightforward (non-recursive) visitor
     template <typename V>
@@ -68,6 +72,17 @@ constexpr const typename accessor<typename decay_deduce<T>::type>::type& composi
     accessor<typename decay_deduce<T>::type> a;
     return a(std::get<typename decay_deduce<T>::type>(d_data));
 }
+
+/*
+template <typename T>
+constexpr typename decay_deduce<T>::type composite::to() const
+{
+  using To = typename decay_deduce<T>::type;
+  return std::visit([](auto&& value) {
+    using From = std::decay_t<decltype(value)>;
+    return caster<From, To>{}(value);
+  }, d_data);
+}*/
 
 template <typename V>
 auto composite::visit(V&& visitor) const

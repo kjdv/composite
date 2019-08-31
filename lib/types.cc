@@ -3,14 +3,15 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
+#include <cast.hh>
 
 namespace composite {
 
 using namespace std;
 
-ostream& operator<<(ostream& o, none)
+ostream& operator<<(ostream& o, none n)
 {
-    return o << "<none>";
+  return o << cast<string>(n);
 }
 
 namespace implementation {
