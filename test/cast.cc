@@ -40,5 +40,43 @@ TEST(cast_test, from_int)
   EXPECT_THROW(cast<sequence>(From{0}), std::bad_cast);
 }
 
+TEST(cast_test, from_float)
+{
+  using From = deduce<double>::type;
+  EXPECT_EQ(none{}, cast<none>(From{1.0}));
+  EXPECT_EQ(true, cast<bool>(From{1.0}));
+  EXPECT_EQ(false, cast<bool>(From{0.0}));
+  EXPECT_EQ(2, cast<unsigned int>(From{2.3}));
+  EXPECT_EQ(3.14, cast<double>(From{3.14}));
+  EXPECT_EQ("3.140000", cast<string>(From{3.14}));
+  EXPECT_THROW(cast<mapping>(From{0}), std::bad_cast);
+}
+
+TEST(cast_test, from_string)
+{
+  using From = deduce<string>::type;
+
+  EXPECT_EQ(none{}, cast<none>(From{"abc"}));
+
+  EXPECT_EQ(true, cast<bool>(From{"true"}));
+  EXPECT_EQ(true, cast<bool>(From{"Yes"}));
+  EXPECT_EQ(true, cast<bool>(From{"t"}));
+  EXPECT_EQ(true, cast<bool>(From{"1"}));
+
+  EXPECT_EQ(false, cast<bool>(From{"false"}));
+  EXPECT_EQ(false, cast<bool>(From{"no"}));
+  EXPECT_EQ(false, cast<bool>(From{"f"}));
+  EXPECT_EQ(false, cast<bool>(From{"0"}));
+
+  EXPECT_EQ(123, cast<int>(From{"123"}));
+  EXPECT_EQ(123, cast<int64_t>(From{"123"}));
+  EXPECT_EQ(3.14, cast<double>(From{"3.14"}));
+  EXPECT_EQ("abc", cast<string>(From{"abc"}));
+
+  using M = std::unordered_map<std::string, composite>;
+  EXPECT_THROW(cast<M>(From{""}), std::bad_cast);
+}
+
+
 }
 }
