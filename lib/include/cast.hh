@@ -154,6 +154,38 @@ public:
   none cast<none>(const std::string &) const;
 };
 
+template<>
+struct caster<::composite::sequence>
+{
+  template<typename To>
+  To cast(const sequence &) const
+  {
+    throw std::bad_cast();
+  }
+
+  template<>
+  none cast<none>(const sequence &) const;
+
+  template<>
+  std::string cast<std::string>(const sequence &s) const;
+};
+
+template<>
+struct caster<mapping>
+{
+  template<typename To>
+  To cast(const mapping &) const
+  {
+    throw std::bad_cast();
+  }
+
+  template<>
+  none cast<none>(const mapping &) const;
+
+  template<>
+  std::string cast<std::string>(const mapping &m) const;
+};
+
 
 }
 

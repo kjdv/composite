@@ -1,6 +1,7 @@
 #include <cast.hh>
 #include <gtest/gtest.h>
 #include <composite.hh>
+#include <make.hh>
 
 namespace composite {
 namespace {
@@ -73,10 +74,30 @@ TEST(cast_test, from_string)
   EXPECT_EQ(3.14, cast<double>(From{"3.14"}));
   EXPECT_EQ("abc", cast<string>(From{"abc"}));
 
-  using M = std::unordered_map<std::string, composite>;
-  EXPECT_THROW(cast<M>(From{""}), std::bad_cast);
+  EXPECT_THROW(cast<::composite::mapping>(From{""}), std::bad_cast);
 }
 
+TEST(cast_test, from_sequence)
+{
+  auto seq = make_sequence(1, "abc", true);
+
+  EXPECT_EQ(none{}, cast<none>(seq.as<sequence>()));
+  EXPECT_EQ("[1, abc, true]", cast<string>(seq.as<sequence>()));
+
+  EXPECT_THROW(cast<int>(seq.as<sequence>()), std::bad_cast);
+}
+
+TEST(cast_test, from_mapping)
+{
+  ::composite::mapping mm;
+  mm["pi"] = ::composite::composite(3.14);
+  implementation::mapping m(move(mm));
+
+  EXPECT_EQ(none{}, cast<none>(m));
+  EXPECT_EQ("{pi: 3.14}", cast<string>(m));
+
+  EXPECT_THROW(cast<int>(m), std::bad_cast);
+}
 
 }
 }

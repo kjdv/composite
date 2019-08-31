@@ -1,5 +1,6 @@
 #include <cast.hh>
 #include <sstream>
+#include <composite.hh>
 
 namespace composite {
 namespace implementation {
@@ -73,6 +74,34 @@ std::string caster<std::string>::sanitize(std::string_view input) const
       sanitized += tolower(c);
   }
   return sanitized;
+}
+
+template<>
+none caster<::composite::sequence>::cast<none>(const sequence &) const
+{
+  return none{};
+}
+
+template<>
+std::string caster<::composite::sequence>::cast<std::string>(const sequence &s) const
+{
+  std::ostringstream stream;
+  stream << s;
+  return stream.str();
+}
+
+template<>
+none caster<mapping>::cast<none>(const mapping &) const
+{
+  return none{};
+}
+
+template<>
+std::string caster<mapping>::cast<std::string>(const mapping &m) const
+{
+  std::ostringstream stream;
+  stream << m.access();
+  return stream.str();
 }
 
 
