@@ -158,6 +158,9 @@ struct caster<::composite::sequence>
   }
 
   template<>
+  ::composite::sequence cast<::composite::sequence>(const sequence &s) const;
+
+  template<>
   none cast<none>(const sequence &) const;
 
   template<>
@@ -178,6 +181,9 @@ struct caster<mapping>
 
   template<>
   std::string cast<std::string>(const mapping &m) const;
+
+  template<>
+  ::composite::mapping cast<::composite::mapping>(const mapping &m) const;
 };
 
 

@@ -79,6 +79,12 @@ std::string caster<::composite::sequence>::cast<std::string>(const sequence &s) 
 }
 
 template<>
+::composite::sequence caster<::composite::sequence>::cast<::composite::sequence>(const sequence &s) const
+{
+  return s;
+}
+
+template<>
 none caster<mapping>::cast<none>(const mapping &) const
 {
   return none{};
@@ -92,6 +98,12 @@ std::string caster<mapping>::cast<std::string>(const mapping &m) const
   return stream.str();
 }
 
+
+template<>
+::composite::mapping caster<mapping>::cast<::composite::mapping>(const mapping &m) const
+{
+  return m.access();
+}
 
 }
 }

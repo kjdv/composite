@@ -85,6 +85,7 @@ TEST(cast_test, from_sequence)
   auto seq = make_sequence(1, "abc", true);
 
   EXPECT_EQ(none{}, cast<none>(seq.as<sequence>()));
+  EXPECT_EQ(seq.as<sequence>(), cast<sequence>(seq.as<sequence>()));
   EXPECT_EQ("[1, abc, true]", cast<string>(seq.as<sequence>()));
 
   EXPECT_THROW(cast<int>(seq.as<sequence>()), std::bad_cast);
@@ -94,9 +95,10 @@ TEST(cast_test, from_mapping)
 {
   ::composite::mapping mm;
   mm["pi"] = ::composite::composite(3.14);
-  implementation::mapping m(move(mm));
+  implementation::mapping m(mm);
 
   EXPECT_EQ(none{}, cast<none>(m));
+  EXPECT_EQ(mm, cast<::composite::mapping>(m));
   EXPECT_EQ("{pi: 3.14}", cast<string>(m));
 
   EXPECT_THROW(cast<int>(m), std::bad_cast);
