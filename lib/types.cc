@@ -11,7 +11,7 @@ using namespace std;
 
 ostream& operator<<(ostream& o, none n)
 {
-  return o << cast<string>(n);
+  return o << "<none>";
 }
 
 namespace implementation {

@@ -27,14 +27,8 @@ struct caster<none>
   template <typename To>
   To cast(none) const
   {
-    throw std::bad_cast();
+    return To{};
   }
-
-  template<>
-  none cast<none>(none) const;
-
-  template<>
-  std::string cast<std::string>(none) const;
 };
 
 template <>

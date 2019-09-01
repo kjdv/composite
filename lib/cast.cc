@@ -6,18 +6,6 @@ namespace composite {
 namespace implementation {
 
 template<>
-none caster<none>::cast<none>(none) const
-{
-  return none{};
-}
-
-template<>
-std::string caster<none>::cast<std::string>(none) const
-{
-  return "<none>";
-}
-
-template<>
 std::string caster<bool>::cast<std::string>(bool value) const
 {
   return value ? "true" : "false";

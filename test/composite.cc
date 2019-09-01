@@ -198,5 +198,11 @@ TEST(composite, print)
     }
 }
 
+TEST(composite, to)
+{
+  EXPECT_EQ(3.14, composite("3.14").to<double>());
+  EXPECT_EQ("{pi: 3.14}", composite(mapping({{"pi", composite(3.14)}})).to<std::string>());
+}
+
 } // namespace
 } // namespace composite

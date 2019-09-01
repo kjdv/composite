@@ -73,16 +73,14 @@ constexpr const typename accessor<typename decay_deduce<T>::type>::type& composi
     return a(std::get<typename decay_deduce<T>::type>(d_data));
 }
 
-/*
 template <typename T>
 constexpr typename decay_deduce<T>::type composite::to() const
 {
   using To = typename decay_deduce<T>::type;
   return std::visit([](auto&& value) {
-    using From = std::decay_t<decltype(value)>;
-    return caster<From, To>{}(value);
+    return cast<To>(value);
   }, d_data);
-}*/
+}
 
 template <typename V>
 auto composite::visit(V&& visitor) const

@@ -11,9 +11,12 @@ using namespace std;
 TEST(cast_test, from_none)
 {
   EXPECT_EQ(none{}, cast<none>(none{}));
-  EXPECT_EQ("<none>", cast<string>(none{}));
-  // none can only be cast into itself and to a string
-  EXPECT_THROW(cast<int>(none{}), std::bad_cast);
+  EXPECT_EQ("", cast<string>(none{}));
+  EXPECT_EQ(0, cast<int>(none{}));
+  EXPECT_EQ(0.0, cast<float>(none{}));
+  EXPECT_EQ(false, cast<bool>(none{}));
+  EXPECT_EQ(sequence{}, cast<sequence>(none{}));
+  EXPECT_EQ(mapping{}, cast<mapping>(none{}));
 }
 
 TEST(cast_test, from_bool)
