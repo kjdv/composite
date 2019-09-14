@@ -11,102 +11,84 @@ namespace composite {
 
 namespace implementation {
 
-template <typename From>
-struct caster
+template <typename To>
+To cast(none)
 {
-  template <typename To>
-  To operator()(const From &) const
-  {
-    throw std::bad_cast();
-  }
-};
-
-template <>
-struct caster<none>
-{
-  template <typename To>
-  To cast(none) const
-  {
     return To{};
-  }
-};
+}
+
+template <typename To, std::enable_if_t<std::is_arithmetic<To>::value, int> = 0>
+To cast(bool value)
+{
+  return static_cast<To>(value);
+}
+
+template <typename To, std::enable_if_t<!std::is_arithmetic<To>::value, int> = 0>
+To cast(bool)
+{
+  throw std::bad_cast();
+}
+
+template<>
+std::string cast<std::string>(bool value);
 
 template <>
-struct caster<bool>
+none cast<none>(bool);
+
+template <typename To, std::enable_if_t<std::is_arithmetic<To>::value, int> = 0>
+To cast(int64_t value)
 {
-  template <typename To, std::enable_if_t<std::is_arithmetic<To>::value, int> = 0>
-  To cast(bool value) const
-  {
     return static_cast<To>(value);
-  }
+}
 
-  template <typename To, std::enable_if_t<!std::is_arithmetic<To>::value, int> = 0>
-  To cast(bool) const
-  {
+template <typename To, std::enable_if_t<!std::is_arithmetic<To>::value, int> = 0>
+To cast(int64_t)
+{
     throw std::bad_cast();
-  }
+}
 
-  template<>
-  std::string cast<std::string>(bool value) const;
-
-  template <>
-  none cast<none>(bool) const;
-};
+template<>
+std::string cast<std::string>(int64_t value);
 
 template <>
-struct caster<int64_t>
+none cast<none>(int64_t);
+
+
+
+template <typename To, std::enable_if_t<std::is_arithmetic<To>::value, int> = 0>
+To cast(double value)
 {
-  template <typename To, std::enable_if_t<std::is_arithmetic<To>::value, int> = 0>
-  To cast(int64_t value) const
-  {
     return static_cast<To>(value);
-  }
+}
 
-  template <typename To, std::enable_if_t<!std::is_arithmetic<To>::value, int> = 0>
-  To cast(int64_t) const
-  {
+template <typename To, std::enable_if_t<!std::is_arithmetic<To>::value, int> = 0>
+To cast(double)
+{
     throw std::bad_cast();
-  }
+}
 
-  template<>
-  std::string cast<std::string>(int64_t value) const;
-
-  template <>
-  none cast<none>(int64_t) const;
-};
+template<>
+std::string cast<std::string>(double value);
 
 template <>
-struct caster<double>
-{
-  template <typename To, std::enable_if_t<std::is_arithmetic<To>::value, int> = 0>
-  To cast(double value) const
-  {
-    return static_cast<To>(value);
-  }
+none cast<none>(double);
 
-  template <typename To, std::enable_if_t<!std::is_arithmetic<To>::value, int> = 0>
-  To cast(double) const
-  {
+std::string sanitize(std::string_view value);
+
+template <typename To, std::enable_if_t<std::is_arithmetic<To>::value && !std::is_same<typename deduce<To>::type, bool>::value, int> = 0>
+To cast(const std::string  &value)
+{
+    std::istringstream stream(value);
+
+    To r;
+    if (stream >> r)
+      return r;
     throw std::bad_cast();
-  }
+}
 
-  template<>
-  std::string cast<std::string>(double value) const;
-
-  template <>
-  none cast<none>(double) const;
-};
-
-template <>
-struct caster<std::string>
+template <typename To, std::enable_if_t<std::is_same<typename deduce<To>::type, bool>::value, int> = 0>
+To cast(const std::string &value)
 {
-private:
-  std::string sanitize(std::string_view value) const;
-public:
-
-  template <typename To, std::enable_if_t<std::is_same<typename deduce<To>::type, bool>::value, int> = 0>
-  To cast(const std::string &value) const
-  {
     auto input = sanitize(value);
 
     for(std::string_view key : {"true", "yes", "t", "y"}) // positive
@@ -122,78 +104,57 @@ public:
     }
 
     return static_cast<bool>(cast<int>(input));
-  }
+}
 
-  template <typename To, std::enable_if_t<std::is_arithmetic<To>::value && !std::is_same<typename deduce<To>::type, bool>::value, int> = 0>
-  To cast(const std::string  &value) const
-  {
-    std::istringstream stream(value);
-
-    To r;
-    if (stream >> r)
-      return r;
+template <typename To, std::enable_if_t<!std::is_arithmetic<To>::value, int> = 0>
+To cast(const std::string &)
+{
     throw std::bad_cast();
-  }
-
-  template <typename To, std::enable_if_t<!std::is_arithmetic<To>::value, int> = 0>
-  To cast(const std::string &) const
-  {
-    throw std::bad_cast();
-  }
-
-  template<>
-  std::string cast<std::string>(const std::string &value) const;
-
-  template <>
-  none cast<none>(const std::string &) const;
-};
+}
 
 template<>
-struct caster<::composite::sequence>
+std::string cast<std::string>(const std::string &value);
+
+template <>
+none cast<none>(const std::string &);
+
+template<typename To>
+To cast(const sequence &)
 {
-  template<typename To>
-  To cast(const sequence &) const
-  {
     throw std::bad_cast();
-  }
-
-  template<>
-  ::composite::sequence cast<::composite::sequence>(const sequence &s) const;
-
-  template<>
-  none cast<none>(const sequence &) const;
-
-  template<>
-  std::string cast<std::string>(const sequence &s) const;
-};
+}
 
 template<>
-struct caster<mapping>
+::composite::sequence cast<::composite::sequence>(const sequence &s);
+
+template<>
+none cast<none>(const sequence &);
+
+template<>
+std::string cast<std::string>(const sequence &s);
+
+template<typename To>
+To cast(const mapping &)
 {
-  template<typename To>
-  To cast(const mapping &) const
-  {
-    throw std::bad_cast();
-  }
+   throw std::bad_cast();
+}
 
-  template<>
-  none cast<none>(const mapping &) const;
+template<>
+none cast<none>(const mapping &);
 
-  template<>
-  std::string cast<std::string>(const mapping &m) const;
+template<>
+std::string cast<std::string>(const mapping &m);
 
-  template<>
-  ::composite::mapping cast<::composite::mapping>(const mapping &m) const;
-};
-
+template<>
+::composite::mapping cast<::composite::mapping>(const mapping &m);
 
 }
 
 template <typename To, typename From>
 To cast(const From &value)
 {
-  implementation::caster<From> c{};
-  return c.template cast<To>(value);
+  //implementation::caster<From> c{};
+  return implementation::cast<To>(value);
 }
 
 

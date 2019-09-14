@@ -6,54 +6,55 @@ namespace composite {
 namespace implementation {
 
 template<>
-std::string caster<bool>::cast<std::string>(bool value) const
+std::string cast<std::string>(bool value)
 {
   return value ? "true" : "false";
 }
 
 template <>
-none caster<bool>::cast<none>(bool) const
+none cast<none>(bool)
 {
   return none{};
 }
 
+
 template<>
-std::string caster<int64_t>::cast<std::string>(int64_t value) const
+std::string cast<std::string>(int64_t value)
 {
   return std::to_string(value);
 }
 
 template <>
-none caster<int64_t>::cast<none>(int64_t) const
+none cast<none>(int64_t)
 {
   return none{};
 }
 
 template<>
-std::string caster<double>::cast<std::string>(double value) const
+std::string cast<std::string>(double value)
 {
   return std::to_string(value);
 }
 
 template <>
-none caster<double>::cast<none>(double) const
+none cast<none>(double)
 {
   return none{};
 }
 
 template<>
-std::string caster<std::string>::cast<std::string>(const std::string &value) const
+std::string cast<std::string>(const std::string &value)
 {
   return value;
 }
 
 template <>
-none caster<std::string>::cast<none>(const std::string &) const
+none cast<none>(const std::string &)
 {
   return none{};
 }
 
-std::string caster<std::string>::sanitize(std::string_view input) const
+std::string sanitize(std::string_view input)
 {
   std::string sanitized;
   for(char c : input)
@@ -65,13 +66,13 @@ std::string caster<std::string>::sanitize(std::string_view input) const
 }
 
 template<>
-none caster<::composite::sequence>::cast<none>(const sequence &) const
+none cast<none>(const sequence &)
 {
   return none{};
 }
 
 template<>
-std::string caster<::composite::sequence>::cast<std::string>(const sequence &s) const
+std::string cast<std::string>(const sequence &s)
 {
   std::ostringstream stream;
   stream << s;
@@ -79,19 +80,19 @@ std::string caster<::composite::sequence>::cast<std::string>(const sequence &s) 
 }
 
 template<>
-::composite::sequence caster<::composite::sequence>::cast<::composite::sequence>(const sequence &s) const
+::composite::sequence cast<::composite::sequence>(const sequence &s)
 {
   return s;
 }
 
 template<>
-none caster<mapping>::cast<none>(const mapping &) const
+none cast<none>(const mapping &)
 {
   return none{};
 }
 
 template<>
-std::string caster<mapping>::cast<std::string>(const mapping &m) const
+std::string cast<std::string>(const mapping &m)
 {
   std::ostringstream stream;
   stream << m.access();
@@ -100,7 +101,7 @@ std::string caster<mapping>::cast<std::string>(const mapping &m) const
 
 
 template<>
-::composite::mapping caster<mapping>::cast<::composite::mapping>(const mapping &m) const
+::composite::mapping cast<::composite::mapping>(const mapping &m)
 {
   return m.access();
 }
