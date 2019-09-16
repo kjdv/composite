@@ -107,20 +107,18 @@ public:
         d_state.push(state::map_first);
     }
 
-    void sentinel() override
+    void end_sequence() override
     {
-        assert(!d_state.empty());
+      assert(!d_state.empty());
+      d_str << ']';
+      d_state.pop();
+    }
 
-        switch(d_state.top())
-        {
-        case state::seq:
-            d_str << ']';
-            break;
-        case state::map_first:
-        case state::map_next:
-            d_str << '}';
-        }
-        d_state.pop();
+    void end_mapping() override
+    {
+      assert(!d_state.empty());
+      d_str << '}';
+      d_state.pop();
     }
 
     string build()

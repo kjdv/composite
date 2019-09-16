@@ -20,7 +20,10 @@ public:
     virtual void key(std::string_view); // called before visiting a mapping element
     virtual void start_sequence();      // indicate the start of a sequence
     virtual void start_mapping();       // indicate the start of a mapping
-    virtual void sentinel();            // indicate the end of a sequence or mapping
+    virtual void end_sequence();        // indicate the end of a sequence
+    virtual void end_mapping();         // indicate the end of a mapping
+
+    [[deprecated("please use end_sequence or end_mapping")]] virtual void sentinel();            // indicate the end of a sequence or mapping
 };
 
 void apply(const composite& c, visitor& v);

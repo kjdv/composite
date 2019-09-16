@@ -25,7 +25,8 @@ struct helper
             apply(s[i], base);
         }
 
-        base.sentinel();
+        base.end_sequence();
+        base.sentinel(); // todo: remove deprecated call
     }
 
     void operator()(const mapping& m)
@@ -38,7 +39,8 @@ struct helper
             apply(kv.second, base);
         }
 
-        base.sentinel();
+        base.end_mapping();
+        base.sentinel(); // todo: remove deprecated call
     }
 };
 
@@ -55,6 +57,14 @@ void visitor::start_sequence()
 
 void visitor::start_mapping()
 {}
+
+void visitor::end_sequence()
+{
+}
+
+void visitor::end_mapping()
+{
+}
 
 void visitor::sentinel()
 {}
