@@ -10,10 +10,10 @@ class visitor
 public:
     virtual ~visitor() = default;
 
-    virtual void visit(deduce<void>::type)   = 0;
-    virtual void visit(deduce<bool>::type)   = 0;
-    virtual void visit(deduce<int>::type)    = 0;
-    virtual void visit(deduce<double>::type) = 0;
+    virtual void visit(void_t)   = 0;
+    virtual void visit(bool_t)   = 0;
+    virtual void visit(int_t)    = 0;
+    virtual void visit(float_t) = 0;
     virtual void visit(std::string_view)     = 0;
 
     virtual void index(std::size_t);    // called before visiting a sequence element

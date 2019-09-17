@@ -2,6 +2,7 @@
 
 #include "types.hh"
 #include <type_traits>
+#include <string>
 #include <string_view>
 
 namespace composite {
@@ -56,5 +57,11 @@ template <typename T>
 struct decay_deduce : public deduce<typename std::decay<T>::type>
 {
 };
+
+using void_t = deduce<void>::type;
+using bool_t = deduce<bool>::type;
+using int_t = deduce<int>::type;
+using float_t = deduce<float>::type;
+using string_t = deduce<std::string>::type;
 
 } // namespace composite
