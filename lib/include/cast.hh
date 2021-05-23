@@ -53,7 +53,23 @@ std::string cast<std::string>(int64_t value);
 template <>
 none cast<none>(int64_t);
 
+template <typename To, std::enable_if_t<std::is_arithmetic<To>::value, int> = 0>
+To cast(uint64_t value)
+{
+    return static_cast<To>(value);
+}
 
+template <typename To, std::enable_if_t<!std::is_arithmetic<To>::value, int> = 0>
+To cast(uint64_t)
+{
+    throw std::bad_cast();
+}
+
+template<>
+std::string cast<std::string>(uint64_t value);
+
+template <>
+none cast<none>(uint64_t);
 
 template <typename To, std::enable_if_t<std::is_arithmetic<To>::value, int> = 0>
 To cast(double value)

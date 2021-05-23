@@ -13,8 +13,9 @@ TEST(access, scalars)
     EXPECT_EQ(true, access(sample, "scalars", 1).as<bool>());
     EXPECT_EQ(false, access(sample, "scalars", 2).as<bool>());
     EXPECT_EQ(1, access(sample, "scalars", 3).as<int>());
-    EXPECT_EQ(3.14, access(sample, "scalars", 4).as<double>());
-    EXPECT_EQ("foo", access(sample, "scalars", 5).as<string>());
+    EXPECT_EQ(2, access(sample, "scalars", 4).as<unsigned>());
+    EXPECT_EQ(3.14, access(sample, "scalars", 5).as<double>());
+    EXPECT_EQ("foo", access(sample, "scalars", 6).as<string>());
 }
 
 TEST(access, nested)
@@ -31,7 +32,7 @@ TEST(access, index_on_nonsequence_throws)
 
 TEST(access, index_out_of_range_throws)
 {
-    EXPECT_THROW(access(sample, "scalars", 6), bad_access);
+    EXPECT_THROW(access(sample, "scalars", 7), bad_access);
 }
 
 TEST(access, key_on_nonmap_throws)

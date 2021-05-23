@@ -17,7 +17,6 @@ none cast<none>(bool)
   return none{};
 }
 
-
 template<>
 std::string cast<std::string>(int64_t value)
 {
@@ -29,6 +28,19 @@ none cast<none>(int64_t)
 {
   return none{};
 }
+
+template<>
+std::string cast<std::string>(uint64_t value)
+{
+  return std::to_string(value);
+}
+
+template <>
+none cast<none>(uint64_t)
+{
+  return none{};
+}
+
 
 template<>
 std::string cast<std::string>(double value)

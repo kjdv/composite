@@ -15,6 +15,7 @@ const composite sample = make_map(
                 true,
                 false,
                 1,
+                (unsigned)2,
                 3.14,
                 "foo"),
             "sequences", make_map(

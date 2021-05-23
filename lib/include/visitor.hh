@@ -13,6 +13,7 @@ public:
     virtual void visit(void_t)   = 0;
     virtual void visit(bool_t)   = 0;
     virtual void visit(int_t)    = 0;
+    virtual void visit(uint_t) = 0;
     virtual void visit(float_t) = 0;
     virtual void visit(std::string_view)     = 0;
 

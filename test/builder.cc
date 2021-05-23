@@ -13,6 +13,7 @@ TEST(builder, scalar)
     EXPECT_EQ(make(none{}), builder().with(none{}).build());
     EXPECT_EQ(make(true), builder().with(true).build());
     EXPECT_EQ(make(1), builder().with(1).build());
+    EXPECT_EQ(make((unsigned)2), builder().with((unsigned)2).build());
     EXPECT_EQ(make(1.41), builder().with(1.41).build());
     EXPECT_EQ(make("foobar"), builder().with("foobar").build());
 }
@@ -51,6 +52,7 @@ TEST(builder, complex)
                 .with(true)
                 .with(false)
                 .with(1)
+                .with((unsigned)2)
                 .with(3.14)
                 .with("foo")
             .pop()

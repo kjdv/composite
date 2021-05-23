@@ -13,6 +13,7 @@ TEST(cast_test, from_none)
   EXPECT_EQ(none{}, cast<none>(none{}));
   EXPECT_EQ("", cast<string>(none{}));
   EXPECT_EQ(0, cast<int>(none{}));
+  EXPECT_EQ(0, cast<unsigned>(none{}));
   EXPECT_EQ(0.0, cast<float>(none{}));
   EXPECT_EQ(false, cast<bool>(none{}));
   EXPECT_EQ(sequence{}, cast<sequence>(none{}));
@@ -25,6 +26,7 @@ TEST(cast_test, from_bool)
   EXPECT_EQ(none{}, cast<none>(From{true}));
   EXPECT_EQ(true, cast<bool>(From{true}));
   EXPECT_EQ(false, cast<bool>(From{false}));
+  EXPECT_EQ(1, cast<int>(From{true}));
   EXPECT_EQ(1, cast<unsigned int>(From{true}));
   EXPECT_EQ(1.0, cast<double>(From{true}));
   EXPECT_EQ(0.0, cast<double>(From{false}));
@@ -38,6 +40,7 @@ TEST(cast_test, from_int)
   using From = deduce<int>::type;
   EXPECT_EQ(none{}, cast<none>(From{-1}));
   EXPECT_EQ(true, cast<bool>(From{1}));
+  EXPECT_EQ(-2, cast<int>(From{-2}));
   EXPECT_EQ(2, cast<unsigned int>(From{2}));
   EXPECT_EQ(3.0, cast<double>(From{3}));
   EXPECT_EQ("4", cast<string>(From{4}));
@@ -50,6 +53,7 @@ TEST(cast_test, from_float)
   EXPECT_EQ(none{}, cast<none>(From{1.0}));
   EXPECT_EQ(true, cast<bool>(From{1.0}));
   EXPECT_EQ(false, cast<bool>(From{0.0}));
+  EXPECT_EQ(-1, cast<unsigned int>(From{-1.3}));
   EXPECT_EQ(2, cast<unsigned int>(From{2.3}));
   EXPECT_EQ(3.14, cast<double>(From{3.14}));
   EXPECT_EQ("3.140000", cast<string>(From{3.14}));
@@ -74,6 +78,7 @@ TEST(cast_test, from_string)
 
   EXPECT_EQ(123, cast<int>(From{"123"}));
   EXPECT_EQ(123, cast<int64_t>(From{"123"}));
+  EXPECT_EQ(123, cast<uint64_t>(From{"123"}));
   EXPECT_EQ(3.14, cast<double>(From{"3.14"}));
   EXPECT_EQ("abc", cast<string>(From{"abc"}));
 

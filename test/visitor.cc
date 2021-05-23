@@ -30,6 +30,11 @@ struct scalar_collector : public visitor
         items.emplace_back(v);
     }
 
+    void visit(deduce<unsigned>::type v) override
+    {
+        items.emplace_back(v);
+    }
+
     void visit(deduce<double>::type v) override
     {
         items.emplace_back(v);
@@ -60,6 +65,11 @@ public:
     }
 
     void visit(deduce<int>::type v) override
+    {
+        d_str << v;
+    }
+
+    void visit(deduce<unsigned>::type v) override
     {
         d_str << v;
     }
@@ -157,7 +167,7 @@ TEST(visitor, flat_map)
 TEST(visitor, jsonify_scalar)
 {
     jsonify js;
-    apply(access(sample, "scalars", 4), js);
+    apply(access(sample, "scalars", 5), js);
 
     EXPECT_EQ("3.14", js.build());
 }
@@ -167,7 +177,7 @@ TEST(visitor, jsonify_seq)
     jsonify js;
     apply(access(sample, "scalars"), js);
 
-    EXPECT_EQ(R"|([null, true, false, 1, 3.14, "foo"])|", js.build());
+    EXPECT_EQ(R"|([null, true, false, 1, 2, 3.14, "foo"])|", js.build());
 }
 
 TEST(visitor, jsonify_map)

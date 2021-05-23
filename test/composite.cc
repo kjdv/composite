@@ -40,6 +40,17 @@ TEST(composite, construct_int)
     EXPECT_EQ(1, c.as<int>());
 }
 
+TEST(composite, construct_uint)
+{
+    composite c((unsigned)1);
+
+    EXPECT_FALSE(c.is<none>());
+    EXPECT_TRUE(c.is<unsigned>());
+    EXPECT_TRUE(c.is<uint64_t>());
+
+    EXPECT_EQ(1, c.as<unsigned>());
+}
+
 TEST(composite, construct_float)
 {
     double    p = 3.1415;
@@ -144,6 +155,7 @@ TEST(composite, equality)
         {composite(), composite(), true},
         {composite(false), composite(false), true},
         {composite(1), composite(1), true},
+        {composite((unsigned)1), composite((unsigned)1), true},
         {composite(-3.14), composite(-3.14), true},
         {composite("foo"), composite("foo"), true},
 
@@ -175,6 +187,8 @@ TEST(composite, print)
         {composite(), "<none>"},
         {composite(true), "true"},
         {composite(false), "false"},
+        {composite((int64_t)0xffffffffffffffff), "-1"},
+        {composite((uint64_t)0xffffffffffffffff), "18446744073709551615"},
         {composite(2), "2"},
         {composite(3.14), "3.14"},
         {composite("foo"), "foo"},

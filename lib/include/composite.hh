@@ -37,6 +37,7 @@ private:
         deduce<none>::type,
         deduce<bool>::type,
         deduce<int>::type,
+        deduce<unsigned>::type,
         deduce<double>::type,
         deduce<std::string>::type,
         deduce<sequence>::type,
